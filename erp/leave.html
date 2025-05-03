@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Leave Application Form</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f6fa;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+      background-color: #dbeeff;
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-size: 18px;
+    }
+
+    .form-section {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .section {
+      flex: 1;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      width: 150px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-group span {
+      font-weight: 600;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    input[type="checkbox"] {
+      transform: scale(1.2);
+    }
+
+    textarea {
+      resize: vertical;
+      height: 60px;
+    }
+
+    .buttons {
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    .buttons button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-save {
+      background-color: #28a745;
+    }
+
+    .btn-save:hover {
+      background-color: #218838;
+    }
+
+    .btn-cancel {
+      background-color: #dc3545;
+    }
+
+    .btn-cancel:hover {
+      background-color: #c82333;
+    }
+
+  
+
+    @media (max-width: 768px) {
+      .form-section {
+        flex-direction: column;
+      }
+
+      .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .form-group label {
+        margin-bottom: 5px;
+        width: auto;
+      }
+
+      input[type="text"],
+      input[type="date"],
+      select,
+      textarea {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-section">
+      <div class="section">
+        <h2>Student Details</h2>
+        <div class="form-group"><label>Student Name:</label> <span>VEDANT RAMU GHATOLE</span></div>
+        <div class="form-group"><label>Branch:</label> <span>FE B.Tech. CE-A</span></div>
+        <div class="form-group">
+          <label>Application Date:</label>
+          <input type="date">
+        </div>
+        <div class="form-group">
+          <label>Leave Type:</label>
+          <select>
+            <option>--Select--</option>
+            <option>Sick Leave</option>
+            <option>Casual Leave</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Special Period:</label>
+          <input type="checkbox">
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Leave Details</h2>
+        <div class="form-group">
+          <label>From Date:</label>
+          <input type="date">
+        </div>
+        <div class="form-group">
+          <label>UpTo Date:</label>
+          <input type="date">
+        </div>
+        <div class="form-group">
+          <label>From Period:</label>
+          <select>
+            <option>0</option>
+            <option>1</option>
+            <option>2</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>UpTo Period:</label>
+          <select>
+            <option>0</option>
+            <option>1</option>
+            <option>2</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Reason:</label>
+          <textarea></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="btn-save">Save</button>
+      <button class="btn-cancel">Cancel</button>
+    </div>
+
+  </div>
+</body>
+</html>

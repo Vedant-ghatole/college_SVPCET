@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Report</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --accent-color: #3b82f6;
+      --text-color: #1f2937;
+      --light-bg: #f3f4f6;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--light-bg);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      color: white;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 16px;
+    }
+
+    .info {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .info p {
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .info p strong {
+      min-width: 150px;
+      color: var(--primary-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background-color: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    .summary-row th, .summary-row td {
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .theory { background-color: #fef2f2; }
+    .practical { background-color: #f0fdf4; }
+    .tutorial { background-color: #fffbeb; }
+    .total { background-color: #eff6ff; }
+
+    .note {
+      background: #fff3cd;
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 30px;
+      border-left: 4px solid #f59e0b;
+    }
+
+    .note strong {
+      color: #b45309;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .note ul {
+      margin: 10px 0 0 20px;
+    }
+
+    .note li {
+      margin-bottom: 8px;
+    }
+
+    .print-btns {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .print-btns button {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .print-btns button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+    }
+
+    .print-btns label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .print-btns input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+      .header, .info, table, .note {
+        box-shadow: none;
+      }
+      .print-btns {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Attendance Report - St. Vincent Pallotti College of Engineering and Technology</h1>
+    <p>Gavsi Manapur, Wardha Road, Nagpur</p>
+  </div>
+
+  <div class="info">
+    <p><strong>Name:</strong> Mr. Vedant Ramu Ghatole</p>
+    <p><strong>Branch:</strong> FE B.Tech. CE-A</p>
+    <p><strong>Admission Pattern:</strong> Regular</p>
+    <p><strong>Academic Year:</strong> 2024–2025</p>
+    <p><strong>Mobile No:</strong> 7057422325</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>SrNo</th>
+        <th>Subject</th>
+        <th>Subject Type</th>
+        <th>Present</th>
+        <th>Total Period</th>
+        <th>Percentage (%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Engineering Physics and Materials Science</td><td>TH</td><td>5</td><td>8</td><td>62.50</td></tr>
+      <tr><td>2</td><td>Engineering Physics and Materials Science Lab</td><td>PR</td><td>8</td><td>10</td><td>80</td></tr>
+      <tr><td>3</td><td>Statistics and Probability</td><td>TH</td><td>39</td><td>43</td><td>90.70</td></tr>
+      <tr><td>4</td><td>Problem Solving with Python</td><td>TH</td><td>30</td><td>31</td><td>96.77</td></tr>
+      <tr><td>5</td><td>Problem Solving with Python Lab</td><td>PR</td><td>20</td><td>20</td><td>100</td></tr>
+      <tr><td>6</td><td>Modern Web Technologies</td><td>TH</td><td>39</td><td>41</td><td>95.12</td></tr>
+      <tr><td>7</td><td>Competitive Programming – II</td><td>TH</td><td>11</td><td>11</td><td>100</td></tr>
+      <tr><td>8</td><td>Business Communication Skills – II Lab</td><td>PR</td><td>10</td><td>10</td><td>100</td></tr>
+      <tr><td>9</td><td>Design Thinking</td><td>TH</td><td>24</td><td>25</td><td>96</td></tr>
+      <tr class="summary-row theory"><td colspan="3">Theory</td><td>148</td><td>159</td><td>93.08</td></tr>
+      <tr class="summary-row practical"><td colspan="3">Practical</td><td>38</td><td>40</td><td>95</td></tr>
+      <tr class="summary-row tutorial"><td colspan="3">Tutorial</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr class="summary-row total"><td colspan="3">Total</td><td>186</td><td>199</td><td>93.47</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>Note:</strong>
+    <ul>
+      <li>80% Attendance (Theory as well as Practical) is compulsory.</li>
+      <li>This is an electronically generated document based on uploaded attendance-record by concerned faculty of the respective Departments.</li>
+      <li>Discrepancy related to attendance-record should be communicated to the CASERP section through Subject-Incharge, Class-Incharge and Head of the Department.</li>
+    </ul>
+  </div>
+
+  <div class="print-btns">
+    <button onclick="window.print()">🖨️ Print</button>
+    <label><input type="checkbox"> Print Header</label>
+  </div>
+
+</body>
+</html>

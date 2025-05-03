@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #3b82f6;
+      --secondary-color: #2563eb;
+      --accent-color: #1e88e5;
+      --text-color: #333;
+      --light-bg: #f8fafc;
+      --border-color: #e5e7eb;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--light-bg);
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="0.5" stroke-opacity="0.1"/></svg>') repeat;
+      opacity: 0.1;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 36px;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .header p {
+      font-size: 18px;
+      margin-top: 10px;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .profile {
+      display: flex;
+      flex-wrap: wrap;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar {
+      background: linear-gradient(135deg, #fff, #f5f7fa);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      max-width: 320px;
+      border: 1px solid rgba(30, 136, 229, 0.2);
+    }
+
+    .sidebar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+      border-radius: 5px 5px 0 0;
+    }
+
+    .sidebar .avatar {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .sidebar .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .sidebar .avatar:hover img {
+      transform: scale(1.05);
+    }
+
+    .sidebar .avatar::after {
+      content: '';
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-color);
+      top: -5px;
+      left: -5px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.3;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+    }
+
+    .sidebar h2 {
+      color: var(--primary-color);
+      font-size: 24px;
+      margin-bottom: 5px;
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+
+    .sidebar h2::after {
+      content: '';
+      position: absolute;
+      width: 40%;
+      height: 3px;
+      background: linear-gradient(to right, var(--accent-color), transparent);
+      bottom: -5px;
+      left: 30%;
+    }
+
+    .sidebar .id {
+      background: rgba(30, 136, 229, 0.1);
+      color: var(--primary-color);
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 500;
+      margin: 15px auto;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar .id:hover {
+      background: rgba(30, 136, 229, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .sidebar p {
+      margin: 12px 0;
+      color: #455a64;
+      font-size: 15px;
+      position: relative;
+      padding-left: 5px;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar p:hover {
+      transform: translateX(5px);
+      color: var(--primary-color);
+    }
+
+    .sidebar .semester {
+      display: block;
+      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 12px 25px;
+      border-radius: 30px;
+      margin-top: 20px;
+      font-weight: 500;
+      box-shadow: 0 5px 15px rgba(13, 71, 161, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .sidebar .semester:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(13, 71, 161, 0.3);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-color);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+      transform: translateY(-3px);
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .status-indicator {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #4caf50;
+      box-shadow: 0 0 8px #4caf50;
+      animation: status-pulse 2s infinite;
+    }
+
+    @keyframes status-pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .main {
+      flex: 2;
+      padding: 30px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+
+    .tabs button {
+      background: transparent;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+      color: #6b7280;
+    }
+
+    .tabs button:hover {
+      color: var(--primary-color);
+    }
+
+    .tabs .active {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    .tabs .active::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--primary-color);
+      border-radius: 3px;
+    }
+
+    .info-section {
+      border-top: 1px solid var(--border-color);
+      padding-top: 25px;
+      margin-top: 20px;
+    }
+
+    .info-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .info-header h2 {
+      font-size: 22px;
+      color: var(--text-color);
+      font-weight: 600;
+    }
+
+    .edit-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .edit-btn:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .info-grid div {
+      background: var(--light-bg);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+    }
+
+    .info-grid div:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      border-color: var(--primary-color);
+    }
+
+    .info-grid strong {
+      display: block;
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .info-grid p {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+
+    .info-grid .full-width {
+      grid-column: span 2;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        max-width: 100%;
+        margin-bottom: 20px;
+      }
+      
+      .info-grid .full-width {
+        grid-column: span 1;
+      }
+    }
+
+    /* New Features */
+    .quick-actions {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .action-btn {
+      background: white;
+      border: 1px solid var(--border-color);
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-color);
+    }
+
+    .action-btn:hover {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+      transform: translateY(-2px);
+    }
+
+    .progress-section {
+      margin-top: 30px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--border-color);
+      border-radius: 4px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .achievements {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .achievement-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+
+    .achievement-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .achievement-card i {
+      font-size: 24px;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>My Profile</h1>
+    <p>View and manage your personal and academic information</p>
+  </div>
+
+  <div class="container">
+    <div class="profile">
+      <div class="sidebar">
+        <div class="status-indicator" title="Active"></div>
+        <div class="avatar"><img src="source/Photo.jpg" alt="Student Photo"></div>
+        <h2>Vedant Ramu Ghatole</h2>
+        <p class="id">Self Reg. Code: 103240276</p>
+        <p><i class="fas fa-phone-alt"></i> 7057422325</p>
+        <p><i class="fas fa-home"></i> BALAJIPURAM, UMRED, 441203</p>
+        <p><i class="fas fa-graduation-cap"></i> FE B.Tech. CE-A</p>
+        <span class="semester">Academic Year: 2024-2025</span>
+        
+        <div class="social-links">
+          <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
+          <a href="#" title="Student Portal"><i class="fas fa-user-graduate"></i></a>
+          <a href="#" title="Results"><i class="fas fa-chart-bar"></i></a>
+        </div>
+      </div>
+
+      <div class="main">
+        <div class="quick-actions">
+          <button class="action-btn">
+            <i class="fas fa-download"></i>
+            Download Documents
+          </button>
+          <button class="action-btn">
+            <i class="fas fa-calendar-alt"></i>
+            View Schedule
+          </button>
+          <button class="action-btn">
+            <i class="fas fa-book"></i>
+            Course Materials
+          </button>
+        </div>
+
+        <div class="tabs">
+          <button class="active">Personal</button>
+          <button>Academic</button>
+          <button>Parents</button>
+          <button>Documents</button>
+        </div>
+
+        <div class="info-section">
+          <div class="info-header">
+            <h2>Personal Information</h2>
+            <button class="edit-btn">
+              <i class="fas fa-edit"></i>
+              Edit Profile
+            </button>
+          </div>
+          <div class="info-grid">
+            <div><strong>Full Name</strong><p>Vedant Ramu Ghatole</p></div>
+            <div><strong>Date of Birth</strong><p>13/04/2005</p></div>
+            <div><strong>Gender</strong><p>Male</p></div>
+            <div><strong>Nationality</strong><p>Indian</p></div>
+            <div><strong>Religion</strong><p>Hindu</p></div>
+            <div><strong>Domicile State</strong><p>Maharashtra</p></div>
+            <div class="full-width"><strong>Address</strong><p>BALAJIPURAM, UMRED, 441203</p></div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <div class="info-header">
+            <h2>Academic Information</h2>
+          </div>
+          <div class="info-grid">
+            <div><strong>Course Year</strong><p>FE-AS-CE-A</p></div>
+            <div><strong>Admission Pattern</strong><p>Regular</p></div>
+            <div><strong>Section</strong><p>FE B.Tech. CE-A</p></div>
+            <div><strong>Date of Registration</strong><p>28/08/2024</p></div>
+            <div><strong>Admitted Academic Year</strong><p>2024-2025</p></div>
+            <div><strong>Student Code</strong><p>24003071</p></div>
+            <div><strong>Admission Status</strong><p>Confirmed</p></div>
+            <div><strong>Admission Mode</strong><p>Online</p></div>
+            <div><strong>Current Academic Year</strong><p>2024-2025</p></div>
+            <div><strong>University Enrollment No.</strong><p>Not Provided</p></div>
+          </div>
+        </div>
+
+        <div class="progress-section">
+          <h2>Academic Progress</h2>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 75%"></div>
+          </div>
+        </div>
+
+        <div class="achievements">
+          <div class="achievement-card">
+            <i class="fas fa-trophy"></i>
+            <h3>Academic Excellence</h3>
+            <p>Top 10% in Semester 1</p>
+          </div>
+          <div class="achievement-card">
+            <i class="fas fa-certificate"></i>
+            <h3>Certifications</h3>
+            <p>3 Professional Certificates</p>
+          </div>
+          <div class="achievement-card">
+            <i class="fas fa-users"></i>
+            <h3>Extracurricular</h3>
+            <p>Active in 2 Clubs</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

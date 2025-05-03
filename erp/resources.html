@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resources Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f7f9fc;
+      padding: 30px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #1e40af;
+      position: relative;
+      display: inline-block;
+    }
+
+    .header h1::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 4px;
+      background: linear-gradient(to right, #3b82f6, #2563eb);
+      bottom: -10px;
+      left: 25%;
+      border-radius: 2px;
+    }
+
+    .search-container {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 30px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #64748b;
+    }
+
+    .filter-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 20px;
+      border: none;
+      border-radius: 20px;
+      background: #e2e8f0;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .section {
+      margin-bottom: 40px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section h2 {
+      margin-bottom: 20px;
+      border-left: 5px solid #3b82f6;
+      padding-left: 15px;
+      font-size: 1.75rem;
+      color: #1e40af;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, #3b82f6, #2563eb);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      color: #1e40af;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .card .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .card a {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 15px;
+      background-color: #e2e8f0;
+      color: #1e40af;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .card a:hover {
+      background-color: #3b82f6;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .card a i {
+      font-size: 0.9rem;
+    }
+
+    .download-count {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #e2e8f0;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      color: #475569;
+    }
+
+    .recent-uploads {
+      margin-top: 40px;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    }
+
+    .recent-uploads h3 {
+      margin-bottom: 15px;
+      color: #1e40af;
+    }
+
+    .upload-list {
+      list-style: none;
+    }
+
+    .upload-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .upload-list li:last-child {
+      border-bottom: none;
+    }
+
+    .upload-list .file-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .upload-list .file-icon {
+      color: #3b82f6;
+    }
+
+    .upload-list .time {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .filter-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* Add/replace these styles for better UI/UX */
+    .links {
+      gap: 15px;
+    }
+    .preview-btn, .download-btn {
+      border: none;
+      outline: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 500;
+    }
+    .preview-btn {
+      background: #f1f5f9;
+      color: #2563eb;
+      border: 1px solid #2563eb;
+    }
+    .preview-btn:hover {
+      background: #2563eb;
+      color: #fff;
+      box-shadow: 0 2px 8px #2563eb33;
+    }
+    .download-btn {
+      background: #3b82f6;
+      color: #fff;
+      border: 1px solid #3b82f6;
+    }
+    .download-btn:hover {
+      background: #1e40af;
+      color: #fff;
+      box-shadow: 0 2px 8px #1e40af33;
+    }
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(30, 64, 175, 0.15);
+      justify-content: center;
+      align-items: center;
+      transition: background 0.2s;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 15px;
+      padding: 30px 20px 20px 20px;
+      max-width: 90vw;
+      max-height: 90vh;
+      box-shadow: 0 8px 32px rgba(30,64,175,0.18);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.3s;
+    }
+    .close-btn {
+      position: absolute;
+      top: 12px; right: 18px;
+      font-size: 2rem;
+      color: #2563eb;
+      cursor: pointer;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+    .close-btn:hover {
+      color: #1e40af;
+    }
+    .preview-area {
+      width: 70vw;
+      max-width: 700px;
+      max-height: 70vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: auto;
+    }
+    .preview-area img, .preview-area embed {
+      max-width: 100%;
+      max-height: 65vh;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px #2563eb22;
+    }
+    @media (max-width: 600px) {
+      .modal-content { padding: 10px; }
+      .preview-area { width: 95vw; }
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #fff;
+      background: #64748b;
+      letter-spacing: 1px;
+      vertical-align: middle;
+    }
+    .badge-pdf { background: #e11d48; }
+    .badge-img { background: #2563eb; }
+    .file-size {
+      font-size: 0.8rem;
+      color: #64748b;
+      background: #e2e8f0;
+      border-radius: 8px;
+      padding: 2px 8px;
+    }
+    .sort-select {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      font-size: 1rem;
+      background: #f7f9fc;
+      color: #1e40af;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .sort-select:focus { border: 1px solid #3b82f6; }
+    .copy-link-btn {
+      background: #f1f5f9;
+      color: #64748b;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 15px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+    .copy-link-btn:hover {
+      background: #64748b;
+      color: #fff;
+      box-shadow: 0 2px 8px #64748b33;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📚 Resources</h1>
+    </div>
+
+    <!-- All Resources Section -->
+    <div class="section" id="all-resources">
+      <h2><i class="fas fa-folder-open"></i> All Resources</h2>
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 10px;">
+        <select id="sortSelect" class="sort-select">
+          <option value="az">Sort: A-Z</option>
+          <option value="za">Sort: Z-A</option>
+          <option value="type">Sort: Type</option>
+        </select>
+        <select id="filterSelect" class="sort-select">
+          <option value="all">All Types</option>
+          <option value="pdf">PDF</option>
+          <option value="image">Image</option>
+        </select>
+      </div>
+      <div class="card-grid" id="resourceGrid">
+        <div class="card" data-name="CSS_Questions_Answers_Detailed.pdf" data-type="pdf" data-size="3.9KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">3.9KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> CSS Questions Answers.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/CSS_Questions_Answers_Detailed.pdf" data-type="pdf" data-name="CSS_Questions_Answers_Detailed.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/CSS_Questions_Answers_Detailed.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/CSS_Questions_Answers_Detailed.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="html question bank_sample.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> html question bank_sample.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/html question bank_sample.pdf" data-type="pdf" data-name="html question bank_sample.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/html question bank_sample.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/html question bank_sample.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="UNIT III NOTES.docx.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> UNIT III NOTES.docx.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/UNIT III NOTES.docx.pdf" data-type="pdf" data-name="UNIT III NOTES.docx.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/UNIT III NOTES.docx.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/UNIT III NOTES.docx.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="CP que bank ans.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> CP que bank ans.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/CP que bank ans.pdf" data-type="pdf" data-name="CP que bank ans.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/CP que bank ans.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/CP que bank ans.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="Data Types in Python.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> Data Types in Python.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/Data Types in Python.pdf" data-type="pdf" data-name="Data Types in Python.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/Data Types in Python.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/Data Types in Python.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="UNIT II Notes.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> UNIT II Notes.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/UNIT II Notes.pdf" data-type="pdf" data-name="UNIT II Notes.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/UNIT II Notes.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/UNIT II Notes.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="Question bank (Autosaved).xlsx.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> Question bank (Autosaved).xlsx.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/Question bank (Autosaved).xlsx.pdf" data-type="pdf" data-name="Question bank (Autosaved).xlsx.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/Question bank (Autosaved).xlsx.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/Question bank (Autosaved).xlsx.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="Optical Fibre updated.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> Optical Fibre updated.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/Optical Fibre updated.pdf" data-type="pdf" data-name="Optical Fibre updated.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/Optical Fibre updated.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/Optical Fibre updated.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="the-complete-reference-html-css-fifth-edition.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> the-complete-reference-html-css-fifth-edition.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/the-complete-reference-html-css-fifth-edition.pdf" data-type="pdf" data-name="the-complete-reference-html-css-fifth-edition.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/the-complete-reference-html-css-fifth-edition.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/the-complete-reference-html-css-fifth-edition.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="MWT notes.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> MWT notes.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/MWT notes.pdf" data-type="pdf" data-name="MWT notes.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/MWT notes.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/MWT notes.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="DT QB.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> DT QB.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/DT QB.pdf" data-type="pdf" data-name="DT QB.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/DT QB.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/DT QB.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="Magnetic Materials.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> Magnetic Materials.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/Magnetic Materials.pdf" data-type="pdf" data-name="Magnetic Materials.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/Magnetic Materials.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/Magnetic Materials.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="Unit 1 CP.docx.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> Unit 1 CP.docx.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/Unit 1 CP.docx.pdf" data-type="pdf" data-name="Unit 1 CP.docx.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/Unit 1 CP.docx.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/Unit 1 CP.docx.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="Design Thinking_UNIT-1_1.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> Design Thinking_UNIT-1_1.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/Design Thinking_UNIT-1_1.pdf" data-type="pdf" data-name="Design Thinking_UNIT-1_1.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/Design Thinking_UNIT-1_1.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/Design Thinking_UNIT-1_1.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="Design Thinking_UNIT-II.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> Design Thinking_UNIT-II.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/Design Thinking_UNIT-II.pdf" data-type="pdf" data-name="Design Thinking_UNIT-II.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/Design Thinking_UNIT-II.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/Design Thinking_UNIT-II.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="Design Thinking_UNIT-III.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> Design Thinking_UNIT-III.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/Design Thinking_UNIT-III.pdf" data-type="pdf" data-name="Design Thinking_UNIT-III.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/Design Thinking_UNIT-III.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/Design Thinking_UNIT-III.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+        <div class="card" data-name="UNIT I NOTES.pdf" data-type="pdf" data-size="1.2KB">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <span class="badge badge-pdf">PDF</span>
+            <span class="file-size">1.2KB</span>
+          </div>
+          <h3><i class="fas fa-file-pdf"></i> UNIT I NOTES.pdf</h3>
+          <div class="links">
+            <button class="preview-btn" data-file="source/UNIT I NOTES.pdf" data-type="pdf" data-name="UNIT I NOTES.pdf">
+              <i class="fas fa-eye"></i> Preview
+            </button>
+            <a href="source/UNIT I NOTES.pdf" download class="download-btn">
+              <i class="fas fa-download"></i> Download
+            </a>
+            <button class="copy-link-btn" data-link="source/UNIT I NOTES.pdf">
+              <i class="fas fa-link"></i> Copy Link
+            </button>
+          </div>
+        </div>
+       
+      </div>
+      <div id="emptyState" style="display:none; text-align:center; color:#888; margin-top:30px;">
+        <i class="fas fa-folder-open" style="font-size:2rem;"></i><br>
+        <span>No resources found.</span>
+      </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="previewModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <div style="margin-bottom:10px;">
+          <span id="modalFileName" style="font-weight:600;"></span>
+          <span id="modalFileType" class="badge" style="margin-left:8px;"></span>
+          <a id="modalDownloadBtn" href="#" download class="download-btn" style="margin-left:12px;">
+            <i class="fas fa-download"></i> Download
+          </a>
+        </div>
+        <div id="previewArea" class="preview-area">
+          <!-- Content will be injected here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Sorting and Filtering ---
+    const sortSelect = document.getElementById('sortSelect');
+    const filterSelect = document.getElementById('filterSelect');
+    const resourceGrid = document.getElementById('resourceGrid');
+    const emptyState = document.getElementById('emptyState');
+
+    function updateResourceGrid() {
+      const cards = Array.from(resourceGrid.querySelectorAll('.card'));
+      const sort = sortSelect.value;
+      const filter = filterSelect.value;
+
+      // Filter
+      let visibleCards = cards.filter(card => {
+        if (filter === 'all') return true;
+        return card.getAttribute('data-type') === filter;
+      });
+
+      // Sort
+      if (sort === 'az') {
+        visibleCards.sort((a, b) => a.getAttribute('data-name').localeCompare(b.getAttribute('data-name')));
+      } else if (sort === 'za') {
+        visibleCards.sort((a, b) => b.getAttribute('data-name').localeCompare(a.getAttribute('data-name')));
+      } else if (sort === 'type') {
+        visibleCards.sort((a, b) => a.getAttribute('data-type').localeCompare(b.getAttribute('data-type')));
+      }
+
+      // Remove all cards and re-append in order
+      resourceGrid.innerHTML = '';
+      visibleCards.forEach(card => resourceGrid.appendChild(card));
+
+      // Show/hide empty state
+      emptyState.style.display = visibleCards.length === 0 ? 'block' : 'none';
+    }
+
+    sortSelect.addEventListener('change', updateResourceGrid);
+    filterSelect.addEventListener('change', updateResourceGrid);
+
+    // --- Copy Link Function ---
+    document.querySelectorAll('.copy-link-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const link = location.origin + '/' + btn.getAttribute('data-link');
+        navigator.clipboard.writeText(link);
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(() => {
+          btn.innerHTML = '<i class="fas fa-link"></i> Copy Link';
+        }, 1200);
+      });
+    });
+
+    // --- Preview Modal Functionality (improved) ---
+    const previewBtns = document.querySelectorAll('.preview-btn');
+    const modal = document.getElementById('previewModal');
+    const closeBtn = document.querySelector('.close-btn');
+    const previewArea = document.getElementById('previewArea');
+    const modalFileName = document.getElementById('modalFileName');
+    const modalFileType = document.getElementById('modalFileType');
+    const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+
+    previewBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const file = btn.getAttribute('data-file');
+        const type = btn.getAttribute('data-type');
+        const name = btn.getAttribute('data-name');
+        previewArea.innerHTML = '';
+        modalFileName.textContent = name;
+        modalDownloadBtn.href = file;
+        if (type === 'pdf') {
+          modalFileType.textContent = 'PDF';
+          modalFileType.className = 'badge badge-pdf';
+          previewArea.innerHTML = `<embed src="${file}" type="application/pdf" width="100%" height="500px" />`;
+        } else if (type === 'image') {
+          modalFileType.textContent = 'IMG';
+          modalFileType.className = 'badge badge-img';
+          previewArea.innerHTML = `<img src="${file}" alt="Preview" />`;
+        } else {
+          modalFileType.textContent = 'FILE';
+          modalFileType.className = 'badge';
+          previewArea.innerHTML = `<p>Preview not available for this file type.</p>`;
+        }
+        modal.style.display = 'flex';
+      });
+    });
+
+    closeBtn.onclick = function() {
+      modal.style.display = 'none';
+      previewArea.innerHTML = '';
+    }
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+        previewArea.innerHTML = '';
+      }
+    }
+    window.onkeydown = function(event) {
+      if (event.key === "Escape") {
+        modal.style.display = 'none';
+        previewArea.innerHTML = '';
+      }
+    }
+
+    // --- Search Functionality (improved for new grid) ---
+    const searchInput = document.querySelector('.search-input');
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const cards = Array.from(resourceGrid.querySelectorAll('.card'));
+      let anyVisible = false;
+      cards.forEach(card => {
+        const title = card.getAttribute('data-name').toLowerCase();
+        if (title.includes(searchTerm)) {
+          card.style.display = '';
+          anyVisible = true;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      emptyState.style.display = anyVisible ? 'none' : 'block';
+    });
+
+    // Initial sort/filter
+    updateResourceGrid();
+  </script>
+</body>
+</html>

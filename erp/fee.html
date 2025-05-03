@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fee Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --accent-color: #3b82f6;
+      --text-color: #1f2937;
+      --light-bg: #f3f4f6;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--light-bg);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .section {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      border-left: 4px solid var(--primary-color);
+      transition: transform 0.3s ease;
+    }
+
+    .section:hover {
+      transform: translateY(-2px);
+    }
+
+    .section h2 {
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .section h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: var(--primary-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 20px;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    .note {
+      margin-top: 20px;
+      padding: 15px;
+      background: #fef3c7;
+      border-radius: 10px;
+      border-left: 4px solid var(--warning-color);
+    }
+
+    .note strong {
+      color: #b45309;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .amount {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    .outstanding {
+      color: var(--danger-color);
+      font-weight: 600;
+    }
+
+    .received {
+      color: var(--success-color);
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .section {
+        padding: 20px;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Section 1: Online Payment Charges -->
+  <div class="section">
+    <h2>Online Payment Charges</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Payment Method</th>
+          <th>Total Charges</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Debit Card - Visa, MasterCard</td><td>1.00% of Transaction Amount</td></tr>
+        <tr><td>Credit Card – Visa, MasterCard, Rupay</td><td>1.00% of Transaction Amount</td></tr>
+        <tr><td>Credit Cards – American Express, Diners</td><td>3.00% of Transaction Amount</td></tr>
+        <tr><td>Net Banking – Axis, HDFC, ICICI, Kotak, SBI</td><td>Rs.20 per Transaction</td></tr>
+        <tr><td>Net Banking – All Other Banks</td><td>Rs.15 per Transaction</td></tr>
+        <tr><td>Wallets, Prepaid Cash Card</td><td>2.00% of Transaction Amount</td></tr>
+        <tr><td>EMI/BNPL – Visa, Mastercard, Rupay, Bank A/c, NBFC</td><td>2.00% of Transaction Amount</td></tr>
+        <tr><td>EMI/BNPL – AmEx, Diners Credit Card</td><td>3.00% of Transaction Amount</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 2: Payable Fee Summary -->
+  <div class="section">
+    <h2>Payable Fee Summary</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Fees Type</th>
+          <th>Particulars</th>
+          <th>Receivable Amount</th>
+          <th>Received Amount</th>
+          <th>Adjustment</th>
+          <th>Outstanding</th>
+          <th>Advance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Non Academic Fees</td>
+          <td>Tuition Fee (O) (SWO)</td>
+          <td>₹ 58,695.00</td>
+          <td>₹ 0.00</td>
+          <td>₹ 0.00</td>
+          <td>₹ 58,695.00</td>
+          <td>₹ 0.00</td>
+        </tr>
+        <tr style="font-weight: bold; background-color: #f9f9f9;">
+          <td colspan="2">Net Total (Academic + Non-Academic)</td>
+          <td>₹ 58,695.00</td>
+          <td>₹ 0.00</td>
+          <td>₹ 0.00</td>
+          <td>₹ 58,695.00</td>
+          <td>₹ 0.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="note">
+      <strong>Note:</strong><br>
+      • Fee-receipts given by Account-section will be considered as an authenticated document.<br>
+      • Discrepancy related to Payable should be communicated to the Account Section.
+    </p>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Help & Complaint Form</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      padding: 40px 20px;
+      margin: 0;
+    }
+    .form-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      max-width: 550px;
+      margin: auto;
+    }
+    .form-container h2 {
+      text-align: center;
+      color: #222;
+      margin-bottom: 20px;
+    }
+    .form-container select,
+    .form-container input,
+    .form-container textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border 0.3s;
+    }
+    .form-container input:focus,
+    .form-container textarea:focus,
+    .form-container select:focus {
+      border-color: #007BFF;
+      outline: none;
+    }
+    .form-container button {
+      width: 100%;
+      padding: 12px;
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .form-container button:hover {
+      background: #0056b3;
+    }
+    .toast {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #28a745;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; bottom: 0; }
+      to { opacity: 1; bottom: 20px; }
+    }
+
+    @keyframes fadeout {
+      from { opacity: 1; bottom: 20px; }
+      to { opacity: 0; bottom: 0; }
+    }
+
+    @media (max-width: 600px) {
+      .form-container {
+        padding: 20px;
+        margin: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <h2>Help & Complaint Form</h2>
+  <form id="helpComplaintForm">
+    <select name="type" id="type" required>
+      <option value="">Select Request Type</option>
+      <option value="Help">Help</option>
+      <option value="Complaint">Complaint</option>
+    </select>
+    <input type="text" name="name" id="name" placeholder="Your Name" required>
+    <input type="email" name="email" id="email" placeholder="Your Email (optional)">
+    <textarea name="message" id="message" rows="5" placeholder="Describe your issue or complaint..." required></textarea>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<div class="toast" id="toast">Your request has been submitted successfully!</div>
+
+<script>
+  document.getElementById('helpComplaintForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const type = document.getElementById('type').value;
+    const name = document.getElementById('name').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    if (type === '' || name === '' || message === '') {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    // Simulate form submission
+    this.reset();
+
+    // Show toast notification
+    const toast = document.getElementById('toast');
+    toast.style.display = 'block';
+    setTimeout(() => {
+      toast.style.display = 'none';
+    }, 3000);
+  });
+</script>
+
+</body>
+</html>

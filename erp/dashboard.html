@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Academic Dashboard</title>
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --bg: #f8fafc;
+      --text: #1e293b;
+      --subtext: #6b7280;
+      --card-bg: #ffffff;
+      --border-radius: 12px;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 30px;
+      color: var(--text);
+      background: linear-gradient(120deg, #f8fafc 60%, #e0e7ff 100%);
+      min-height: 100vh;
+      box-sizing: border-box;
+      padding-bottom: 80px;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      font-size: 26px;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      box-shadow: 0 6px 24px rgba(59,130,246,0.10), 0 1.5px 4px rgba(0,0,0,0.03);
+      border: 1.5px solid #e0e7ef;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 12px 32px rgba(59,130,246,0.13), 0 2px 8px rgba(0,0,0,0.04);
+      border-color: #c7d2fe;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .progress-bar {
+      background: linear-gradient(90deg, #e0e7eb 60%, #f1f5f9 100%);
+      border-radius: 6px;
+      height: 12px;
+      width: 100%;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 6px;
+      background: linear-gradient(90deg, var(--primary) 60%, #60a5fa 100%);
+      box-shadow: 0 1px 4px rgba(59,130,246,0.10);
+      transition: width 0.4s ease;
+    }
+
+    .timetable span {
+      background: #e0f2fe;
+      color: #0369a1;
+      border-radius: 6px;
+      padding: 5px 10px;
+      margin: 2px;
+      display: inline-block;
+      font-size: 13px;
+    }
+
+    .section-title {
+      font-weight: 600;
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+
+    .small-text {
+      font-size: 13px;
+      color: var(--subtext);
+    }
+
+    .exam-dates p,
+    .updates p,
+    .grades p {
+      margin: 6px 0;
+      font-size: 14px;
+    }
+
+    .quiz-survey button {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      font-weight: 500;
+      margin-top: 8px;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.10);
+      letter-spacing: 0.5px;
+      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+    }
+
+    .quiz-survey button:hover {
+      background-color: #2563eb;
+    }
+
+    .quiz-survey button:active {
+      transform: scale(0.98);
+    }
+
+    .btn-icon {
+      font-size: 18px;
+      margin-right: 2px;
+    }
+
+    .grades p strong {
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 8px;
+      }
+      h2 {
+        font-size: 22px;
+      }
+      .card {
+        padding: 10px;
+      }
+      .quiz-survey button {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      .main-header {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+      }
+      .logo-text {
+        font-size: 18px;
+      }
+    }
+
+    .main-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0 10px 0;
+      background: rgba(255,255,255,0.85);
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(59,130,246,0.07);
+      margin-bottom: 18px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo-avatar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.12);
+    }
+
+    .logo-text {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 1px;
+    }
+
+    .user-greeting {
+      font-size: 16px;
+      color: var(--subtext);
+      font-weight: 500;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, #e0e7ef 0%, #c7d2fe 100%);
+      margin-bottom: 18px;
+      border-radius: 2px;
+    }
+
+    .main-footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      background: rgba(59,130,246,0.08);
+      color: #334155;
+      text-align: center;
+      padding: 16px 0 10px 0;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      z-index: 20;
+      border-top: 1.5px solid #c7d2fe;
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <div class="logo-avatar">
+      <img src="https://ui-avatars.com/api/?name=Student&background=3b82f6&color=fff&rounded=true&size=48" alt="Avatar" class="avatar" />
+      <span class="logo-text">Academic Dashboard</span>
+    </div>
+    <div class="user-greeting">👋 Hello, Student!</div>
+  </header>
+  <div class="divider"></div>
+  <h2>Dashboard</h2>
+  <p class="small-text">Welcome back! Here's an overview of your academic information.</p>
+
+  <div class="dashboard">
+    <div class="card">
+      <h3>Attendance</h3>
+      <p class="small-text">Overall attendance</p>
+      <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
+    </div>
+
+    <div class="card">
+      <h3>Syllabus Status</h3>
+      <p class="small-text">Average completion</p>
+      <div class="progress-bar"><div class="progress-fill" style="width: 68%"></div></div>
+    </div>
+
+    <div class="card">
+      <h3>Fees Status</h3>
+      <p>125000</p>
+      <p class="small-text">Paid (52000 due by May 30, 2025)</p>
+      <div class="progress-bar"><div class="progress-fill" style="width: 66%"></div></div>
+    </div>
+
+    <div class="card">
+      <h3>Results</h3>
+      <p class="small-text">Current semester</p>
+      <h3>GPA: 8.05</h3>
+    </div>
+
+    <div class="card timetable">
+      <h3>My Timetable</h3>
+      <p>Monday: <span>Computer Science</span> <span>Mathematics</span> <span>Physics</span></p>
+      <p>Tuesday: <span>English</span> <span>Computer Science</span> <span>Mathematics</span></p>
+      <p>Wednesday: <span>Physics</span> <span>English</span> <span>Computer Science</span></p>
+      <p>Thursday: <span>Mathematics</span> <span>Physics</span> <span>English</span></p>
+      <p>Friday: <span>Computer Science</span> <span>Mathematics</span> <span>Physics</span></p>
+    </div>
+
+    <div class="card">
+      <h3>My Attendance</h3>
+      <div class="section-title">Computer Science - 90%</div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 90%"></div></div>
+      <div class="section-title">Mathematics - 85%</div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
+      <div class="section-title">Physics - 75%</div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 75%"></div></div>
+      <div class="section-title">English - 95%</div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 95%"></div></div>
+    </div>
+
+    <div class="card">
+      <h3>My Syllabus Status</h3>
+      <div class="section-title">Computer Science - 65%</div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 65%"></div></div>
+      <div class="section-title">Mathematics - 70%</div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 70%"></div></div>
+      <div class="section-title">Physics - 55%</div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 55%"></div></div>
+      <div class="section-title">English - 80%</div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div>
+    </div>
+
+    <div class="card exam-dates">
+      <h3>My Exams</h3>
+      <p>Mid-term Exam: <strong>May 15, 2025</strong></p>
+      <p>Final Exam: <strong>June 30, 2025</strong></p>
+    </div>
+
+    <div class="card grades">
+      <h3>My Results</h3>
+      <p>Current GPA: <strong>8.05</strong></p>
+      <p>Computer Science: <strong>A</strong></p>
+      <p>Mathematics: <strong>A-</strong></p>
+      <p>Physics: <strong>B+</strong></p>
+      <p>English: <strong>A</strong></p>
+    </div>
+
+    <div class="card updates">
+      <h3>Important Updates</h3>
+      <p>📅 Holiday announced for May 1st</p>
+      <p>📚 New library resources available (Apr 20, 2025)</p>
+    </div>
+
+    <div class="card quiz-survey">
+      <h3>Today's Quiz</h3>
+      <p class="small-text">Test your knowledge of Python</p>
+      <a href="quiz.html"><button><span class="btn-icon">📝</span> Start Quiz</button></a>
+    </div>
+
+    <div class="card quiz-survey">
+      <h3>Weekly Survey</h3>
+      <p><strong>Student Satisfaction Survey</strong></p>
+      <p class="small-text">This survey contains 4 questions.</p>
+      <a href="survery.html"><button><span class="btn-icon">📊</span> Start Survey</button></a>
+    </div>
+  </div>
+</body>
+</html>
+

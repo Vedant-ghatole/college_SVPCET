@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python Objective Quiz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #3b82f6;
+      --primary-dark: #2563eb;
+      --success-color: #10b981;
+      --error-color: #ef4444;
+      --warning-color: #f59e0b;
+      --text-color: #1f2937;
+      --bg-color: #f3f4f6;
+      --card-bg: #ffffff;
+      --border-color: #e5e7eb;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="dark"] {
+      --primary-color: #60a5fa;
+      --primary-dark: #3b82f6;
+      --success-color: #34d399;
+      --error-color: #f87171;
+      --warning-color: #fbbf24;
+      --text-color: #e5e7eb;
+      --bg-color: #1a1a1a;
+      --card-bg: #2d2d2d;
+      --border-color: #404040;
+      --shadow-color: rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .quiz-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px var(--shadow-color);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .quiz-title {
+      font-size: 2rem;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    .quiz-info {
+      display: flex;
+      gap: 20px;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-color);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .theme-toggle {
+      background: var(--bg-color);
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .difficulty-selector {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .difficulty-btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      background: var(--bg-color);
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .difficulty-btn.active {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .difficulty-btn.easy { background: var(--success-color); color: white; }
+    .difficulty-btn.medium { background: var(--warning-color); color: white; }
+    .difficulty-btn.hard { background: var(--error-color); color: white; }
+
+    .progress-container {
+      margin-bottom: 30px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--border-color);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+      width: 0%;
+      transition: width 0.3s ease;
+      position: relative;
+    }
+
+    .progress::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+      background-size: 200% 200%;
+      animation: progressShimmer 2s infinite;
+    }
+
+    @keyframes progressShimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+
+    .question {
+      margin-bottom: 30px;
+      padding: 20px;
+      border-radius: 10px;
+      background: var(--bg-color);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .question:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--shadow-color);
+    }
+
+    .question-text {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .hint-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--warning-color);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .hint-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .hint-text {
+      display: none;
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(245, 158, 11, 0.1);
+      border-radius: 8px;
+      color: var(--warning-color);
+      font-size: 0.9rem;
+    }
+
+    .options {
+      display: grid;
+      gap: 15px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .option::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      background-size: 200% 200%;
+      animation: shimmer 2s infinite;
+      opacity: 0;
+    }
+
+    .option:hover::before {
+      opacity: 1;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .option.selected {
+      border-color: var(--primary-color);
+      background: rgba(59, 130, 246, 0.1);
+      transform: scale(1.02);
+    }
+
+    .option.correct {
+      border-color: var(--success-color);
+      background: rgba(16, 185, 129, 0.1);
+      animation: correctAnswer 0.5s ease;
+    }
+
+    .option.incorrect {
+      border-color: var(--error-color);
+      background: rgba(239, 68, 68, 0.1);
+      animation: incorrectAnswer 0.5s ease;
+    }
+
+    @keyframes correctAnswer {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes incorrectAnswer {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+      100% { transform: translateX(0); }
+    }
+
+    .option input[type="radio"] {
+      display: none;
+    }
+
+    .option-label {
+      flex: 1;
+      cursor: pointer;
+    }
+
+    .explanation {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      background: var(--bg-color);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--border-color);
+      color: var(--text-color);
+    }
+
+    .btn-secondary:hover {
+      background: #d1d5db;
+      transform: translateY(-2px);
+    }
+
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: var(--bg-color);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .stat-card h4 {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+
+    .stat-card p {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 600px;
+      width: 90%;
+      position: relative;
+      animation: modalSlideIn 0.3s ease;
+      box-shadow: 0 10px 30px var(--shadow-color);
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+
+    .modal-subtitle {
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+
+    .score-display {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-align: center;
+      margin: 20px 0;
+      animation: scorePop 0.5s ease;
+    }
+
+    @keyframes scorePop {
+      0% { transform: scale(0.5); opacity: 0; }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .feedback-list {
+      margin: 20px 0;
+    }
+
+    .feedback-item {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .feedback-item.correct {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success-color);
+    }
+
+    .feedback-item.incorrect {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--error-color);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-color);
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .close-modal:hover {
+      opacity: 1;
+    }
+
+    .timer {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .timer i {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .timer.warning {
+      color: var(--error-color);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .quiz-container {
+        padding: 20px;
+      }
+
+      .quiz-header {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .quiz-info {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .difficulty-selector {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="quiz-header">
+      <h1 class="quiz-title">Python Objective Quiz</h1>
+      <div class="quiz-info">
+        <div class="info-item">
+          <i class="fas fa-clock"></i>
+          <span class="timer" id="timer">30:00</span>
+        </div>
+        <div class="info-item">
+          <i class="fas fa-question-circle"></i>
+          <span id="questionCount">1/10</span>
+        </div>
+        <button class="theme-toggle" id="themeToggle">
+          <i class="fas fa-moon"></i>
+          <span>Dark Mode</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="difficulty-selector">
+      <button class="difficulty-btn easy active" data-difficulty="easy">Easy</button>
+      <button class="difficulty-btn medium" data-difficulty="medium">Medium</button>
+      <button class="difficulty-btn hard" data-difficulty="hard">Hard</button>
+    </div>
+
+    <div class="stats-container">
+      <div class="stat-card">
+        <h4>Total Questions</h4>
+        <p id="totalQuestions">0</p>
+      </div>
+      <div class="stat-card">
+        <h4>Correct Answers</h4>
+        <p id="correctAnswers">0</p>
+      </div>
+      <div class="stat-card">
+        <h4>Time Remaining</h4>
+        <p id="timeRemaining">30:00</p>
+      </div>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+      </div>
+      <div class="progress-text">
+        <span>Progress</span>
+        <span id="progressText">0%</span>
+      </div>
+    </div>
+
+    <form id="quiz-form"></form>
+    
+    <div class="controls">
+      <button class="btn btn-secondary" onclick="previousQuestion()">
+        <i class="fas fa-arrow-left"></i>
+        Previous
+      </button>
+      <button class="btn btn-primary" onclick="nextQuestion()">
+        Next
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="modal" id="resultModal">
+    <div class="modal-content">
+      <button class="close-modal">&times;</button>
+      <div class="modal-header">
+        <h2 class="modal-title">Quiz Completed!</h2>
+        <p class="modal-subtitle">Here's how you did</p>
+      </div>
+      <div class="score-display" id="finalScore">0/10</div>
+      <div class="feedback-list" id="feedbackList"></div>
+      <div class="controls">
+        <button class="btn btn-primary" onclick="reloadQuiz()">
+          <i class="fas fa-redo"></i>
+          Try Again
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const quizSets = {
+      easy: [
+        { 
+          question: "Which of the following is a valid Python data type?", 
+          options: ["intfloat", "integer", "int", "num"], 
+          answer: "int",
+          hint: "Think about the most basic numeric type in Python",
+          explanation: "In Python, 'int' is the built-in data type for integers. It's the most basic numeric type and is used for whole numbers."
+        },
+        { 
+          question: "Which keyword is used to define a function in Python?", 
+          options: ["function", "def", "define", "fun"], 
+          answer: "def",
+          hint: "It's a three-letter keyword",
+          explanation: "The 'def' keyword is used to define a function in Python. It's followed by the function name and parameters."
+        },
+        { 
+          question: "What is the output of print(2 + 2 * 2)?", 
+          options: ["8", "6", "4", "Error"], 
+          answer: "6",
+          hint: "Remember the order of operations (PEMDAS)",
+          explanation: "Python follows the order of operations (PEMDAS). Multiplication is performed before addition, so 2 * 2 = 4, then 2 + 4 = 6."
+        },
+        { 
+          question: "Which of these is a valid string in Python?", 
+          options: ["'Hello'", "Hello", "123", "True"], 
+          answer: "'Hello'",
+          hint: "Strings need to be enclosed in quotes",
+          explanation: "In Python, strings must be enclosed in either single quotes ('') or double quotes (\"\")."
+        },
+        { 
+          question: "What is the correct way to create a list in Python?", 
+          options: ["list = []", "list = {}", "list = ()", "list = <>"], 
+          answer: "list = []",
+          hint: "Lists use square brackets",
+          explanation: "Lists in Python are created using square brackets []. Curly braces {} are for dictionaries, and parentheses () are for tuples."
+        },
+        { 
+          question: "Which operator is used for exponentiation in Python?", 
+          options: ["^", "**", "^^", "//"], 
+          answer: "**",
+          hint: "It's a double asterisk",
+          explanation: "The ** operator is used for exponentiation in Python. For example, 2**3 equals 8."
+        },
+        { 
+          question: "What is the output of len('Python')?", 
+          options: ["5", "6", "7", "Error"], 
+          answer: "6",
+          hint: "Count the number of characters",
+          explanation: "The len() function returns the number of characters in a string. 'Python' has 6 characters."
+        },
+        { 
+          question: "Which of these is a valid comment in Python?", 
+          options: ["// This is a comment", "/* This is a comment */", "# This is a comment", "<!-- This is a comment -->"], 
+          answer: "# This is a comment",
+          hint: "Python uses a specific symbol for comments",
+          explanation: "In Python, comments start with the # symbol. The other options are comment styles from other programming languages."
+        },
+        { 
+          question: "What is the output of print(type(3.14))?", 
+          options: ["<class 'int'>", "<class 'float'>", "<class 'str'>", "<class 'bool'>"], 
+          answer: "<class 'float'>",
+          hint: "Think about decimal numbers",
+          explanation: "Numbers with decimal points are of type 'float' in Python."
+        },
+        { 
+          question: "Which of these is a valid way to print multiple values?", 
+          options: ["print('Hello', 'World')", "print 'Hello' 'World'", "print('Hello' + 'World')", "print 'Hello', 'World'"], 
+          answer: "print('Hello', 'World')",
+          hint: "Python 3 uses parentheses for print",
+          explanation: "In Python 3, print() is a function that can take multiple arguments separated by commas."
+        }
+      ],
+      medium: [
+        { 
+          question: "What will be the output of bool(0)?", 
+          options: ["True", "False", "None", "0"], 
+          answer: "False",
+          hint: "Think about truthy and falsy values in Python",
+          explanation: "In Python, 0 is considered a falsy value. The bool() function converts values to their boolean representation."
+        },
+        { 
+          question: "Which of the following is not a loop in Python?", 
+          options: ["for", "while", "do-while", "nested"], 
+          answer: "do-while",
+          hint: "This loop type exists in other languages but not in Python",
+          explanation: "Python doesn't have a 'do-while' loop like some other languages. It only has 'for' and 'while' loops."
+        },
+        { 
+          question: "What is the output of [1, 2, 3] + [4, 5, 6]?", 
+          options: ["[1, 2, 3, 4, 5, 6]", "[5, 7, 9]", "Error", "[1, 2, 3][4, 5, 6]"], 
+          answer: "[1, 2, 3, 4, 5, 6]",
+          hint: "The + operator concatenates lists",
+          explanation: "When using the + operator with lists, it concatenates them into a single list containing all elements."
+        },
+        { 
+          question: "Which of these is a valid dictionary in Python?", 
+          options: ["{'name': 'John', 'age': 25}", "{'name', 'John', 'age', 25}", "['name': 'John', 'age': 25]", "('name': 'John', 'age': 25)"], 
+          answer: "{'name': 'John', 'age': 25}",
+          hint: "Dictionaries use key-value pairs",
+          explanation: "Dictionaries in Python use curly braces {} and contain key-value pairs separated by colons."
+        },
+        { 
+          question: "What is the output of 'Python'[1:4]?", 
+          options: ["yth", "Pyt", "ytho", "Python"], 
+          answer: "yth",
+          hint: "Remember that string indices start at 0",
+          explanation: "String slicing [1:4] returns characters from index 1 up to (but not including) index 4."
+        },
+        { 
+          question: "Which of these is a valid way to create a tuple?", 
+          options: ["t = (1, 2, 3)", "t = [1, 2, 3]", "t = {1, 2, 3}", "t = 1, 2, 3"], 
+          answer: "t = (1, 2, 3)",
+          hint: "Tuples use parentheses",
+          explanation: "Tuples are created using parentheses (). The other options create a list, set, and tuple respectively."
+        },
+        { 
+          question: "What is the output of 10 // 3?", 
+          options: ["3.333", "3", "4", "Error"], 
+          answer: "3",
+          hint: "// is the floor division operator",
+          explanation: "The // operator performs floor division, which rounds down to the nearest integer."
+        },
+        { 
+          question: "Which of these is a valid set in Python?", 
+          options: ["{1, 2, 3}", "[1, 2, 3]", "(1, 2, 3)", "{1: 2, 3: 4}"], 
+          answer: "{1, 2, 3}",
+          hint: "Sets use curly braces without colons",
+          explanation: "Sets are created using curly braces {} with comma-separated values, without colons."
+        },
+        { 
+          question: "What is the output of 'Hello'.upper()?", 
+          options: ["hello", "HELLO", "Hello", "Error"], 
+          answer: "HELLO",
+          hint: "upper() converts to uppercase",
+          explanation: "The upper() method converts all characters in a string to uppercase."
+        },
+        { 
+          question: "Which of these is a valid way to import a module?", 
+          options: ["import math", "from math import *", "import math as m", "All of the above"], 
+          answer: "All of the above",
+          hint: "Python offers multiple ways to import modules",
+          explanation: "All these are valid ways to import modules in Python, each with different use cases."
+        }
+      ],
+      hard: [
+        { 
+          question: "Which keyword is used for recursion in Python?", 
+          options: ["loop", "def", "return", "recurse"], 
+          answer: "return",
+          hint: "This keyword is essential for recursive functions",
+          explanation: "The 'return' keyword is crucial for recursion as it allows the function to return its result to the previous call."
+        },
+        { 
+          question: "What is the output of 'abc' + '123'?", 
+          options: ["abc123", "abc 123", "abc+123", "error"], 
+          answer: "abc123",
+          hint: "Think about string concatenation",
+          explanation: "The '+' operator concatenates strings in Python, joining them together without any space in between."
+        },
+        { 
+          question: "What is the output of [x**2 for x in range(5)]?", 
+          options: ["[0, 1, 4, 9, 16]", "[1, 4, 9, 16, 25]", "[0, 1, 2, 3, 4]", "Error"], 
+          answer: "[0, 1, 4, 9, 16]",
+          hint: "This is a list comprehension",
+          explanation: "This list comprehension squares each number from 0 to 4 (range(5) gives numbers 0 through 4)."
+        },
+        { 
+          question: "What is the output of bool([])?", 
+          options: ["True", "False", "None", "Error"], 
+          answer: "False",
+          hint: "Empty sequences are falsy",
+          explanation: "In Python, empty sequences (like empty lists) are considered falsy values."
+        },
+        { 
+          question: "Which of these is a valid lambda function?", 
+          options: ["lambda x: x**2", "def lambda(x): return x**2", "function(x): x**2", "lambda x: return x**2"], 
+          answer: "lambda x: x**2",
+          hint: "Lambda functions are anonymous",
+          explanation: "Lambda functions are anonymous functions defined with the lambda keyword, followed by parameters and an expression."
+        },
+        { 
+          question: "What is the output of 'Python'.find('th')?", 
+          options: ["2", "3", "-1", "Error"], 
+          answer: "2",
+          hint: "String indices start at 0",
+          explanation: "The find() method returns the lowest index where the substring is found. 'th' starts at index 2 in 'Python'."
+        },
+        { 
+          question: "Which of these is a valid generator expression?", 
+          options: ["(x**2 for x in range(5))", "[x**2 for x in range(5)]", "{x**2 for x in range(5)}", "x**2 for x in range(5)"], 
+          answer: "(x**2 for x in range(5))",
+          hint: "Generator expressions use parentheses",
+          explanation: "Generator expressions are similar to list comprehensions but use parentheses instead of square brackets."
+        },
+        { 
+          question: "What is the output of sorted([3, 1, 4, 1, 5, 9, 2, 6, 5])?", 
+          options: ["[1, 1, 2, 3, 4, 5, 5, 6, 9]", "[9, 6, 5, 5, 4, 3, 2, 1, 1]", "[3, 1, 4, 1, 5, 9, 2, 6, 5]", "Error"], 
+          answer: "[1, 1, 2, 3, 4, 5, 5, 6, 9]",
+          hint: "sorted() returns a new sorted list",
+          explanation: "The sorted() function returns a new list containing all items from the original list in ascending order."
+        },
+        { 
+          question: "Which of these is a valid way to create a class?", 
+          options: ["class MyClass:", "class MyClass()", "class MyClass(object)", "All of the above"], 
+          answer: "All of the above",
+          hint: "Python 3 supports multiple class definition styles",
+          explanation: "All these are valid ways to create a class in Python 3, though the first option is the most modern and preferred."
+        },
+        { 
+          question: "What is the output of any([False, True, False])?", 
+          options: ["True", "False", "None", "Error"], 
+          answer: "True",
+          hint: "any() returns True if any element is True",
+          explanation: "The any() function returns True if at least one element in the iterable is True."
+        }
+      ]
+    };
+
+    let currentSet = [];
+    let currentQuestion = 0;
+    let userAnswers = [];
+    let timer;
+    let timeLeft = 30 * 60;
+    let currentDifficulty = 'easy';
+    let stats = {
+      totalQuestions: 0,
+      correctAnswers: 0,
+      timeRemaining: 30 * 60
+    };
+
+    function updateStats() {
+      document.getElementById('totalQuestions').textContent = stats.totalQuestions;
+      document.getElementById('correctAnswers').textContent = stats.correctAnswers;
+      const minutes = Math.floor(stats.timeRemaining / 60);
+      const seconds = stats.timeRemaining % 60;
+      document.getElementById('timeRemaining').textContent = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+      timer = setInterval(() => {
+        timeLeft--;
+        stats.timeRemaining = timeLeft;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById('timer').textContent = 
+          `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (timeLeft <= 300) {
+          document.getElementById('timer').classList.add('warning');
+        }
+        
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          submitQuiz();
+        }
+        updateStats();
+      }, 1000);
+    }
+
+    function loadQuestion() {
+      const form = document.getElementById("quiz-form");
+      form.innerHTML = "";
+      
+      const question = currentSet[currentQuestion];
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "question";
+      
+      const questionText = document.createElement("p");
+      questionText.className = "question-text";
+      questionText.textContent = `${currentQuestion + 1}. ${question.question}`;
+      questionDiv.appendChild(questionText);
+
+      const hintBtn = document.createElement("button");
+      hintBtn.className = "hint-btn";
+      hintBtn.innerHTML = '<i class="fas fa-lightbulb"></i>';
+      hintBtn.title = "Show Hint";
+      hintBtn.onclick = () => {
+        const hintText = questionDiv.querySelector('.hint-text');
+        hintText.style.display = hintText.style.display === 'block' ? 'none' : 'block';
+      };
+      questionDiv.appendChild(hintBtn);
+
+      const hintText = document.createElement("div");
+      hintText.className = "hint-text";
+      hintText.textContent = question.hint;
+      questionDiv.appendChild(hintText);
+      
+      const optionsDiv = document.createElement("div");
+      optionsDiv.className = "options";
+      
+      question.options.forEach((opt, idx) => {
+        const optionDiv = document.createElement("label");
+        optionDiv.className = "option";
+        if (userAnswers[currentQuestion] === opt) {
+          optionDiv.classList.add("selected");
+        }
+        
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "answer";
+        radio.value = opt;
+        radio.checked = userAnswers[currentQuestion] === opt;
+        
+        const optionLabel = document.createElement("span");
+        optionLabel.className = "option-label";
+        optionLabel.textContent = opt;
+        
+        optionDiv.appendChild(radio);
+        optionDiv.appendChild(optionLabel);
+        
+        optionDiv.addEventListener("click", () => {
+          document.querySelectorAll(".option").forEach(opt => opt.classList.remove("selected"));
+          optionDiv.classList.add("selected");
+          userAnswers[currentQuestion] = opt;
+          
+          // Show explanation after answer is selected
+          const explanation = questionDiv.querySelector('.explanation');
+          if (explanation) {
+            explanation.style.display = 'block';
+          }
+        });
+        
+        optionsDiv.appendChild(optionDiv);
+      });
+      
+      questionDiv.appendChild(optionsDiv);
+
+      const explanation = document.createElement("div");
+      explanation.className = "explanation";
+      explanation.textContent = question.explanation;
+      questionDiv.appendChild(explanation);
+      
+      form.appendChild(questionDiv);
+      
+      updateProgress();
+      updateQuestionCount();
+    }
+
+    function updateProgress() {
+      const progress = (currentQuestion / currentSet.length) * 100;
+      document.getElementById("progress").style.width = `${progress}%`;
+      document.getElementById("progressText").textContent = `${Math.round(progress)}%`;
+    }
+
+    function updateQuestionCount() {
+      document.getElementById("questionCount").textContent = 
+        `${currentQuestion + 1}/${currentSet.length}`;
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < currentSet.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+      } else {
+        submitQuiz();
+      }
+    }
+
+    function previousQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        loadQuestion();
+      }
+    }
+
+    function submitQuiz() {
+      clearInterval(timer);
+      let score = 0;
+      const feedbackList = document.getElementById("feedbackList");
+      feedbackList.innerHTML = "";
+      
+      currentSet.forEach((q, idx) => {
+        const feedbackItem = document.createElement("div");
+        feedbackItem.className = `feedback-item ${userAnswers[idx] === q.answer ? "correct" : "incorrect"}`;
+        
+        const icon = document.createElement("i");
+        icon.className = `fas fa-${userAnswers[idx] === q.answer ? "check" : "times"}`;
+        
+        const feedbackText = document.createElement("span");
+        feedbackText.textContent = `${q.question} - Your answer: ${userAnswers[idx] || "Not answered"}`;
+        
+        feedbackItem.appendChild(icon);
+        feedbackItem.appendChild(feedbackText);
+        feedbackList.appendChild(feedbackItem);
+        
+        if (userAnswers[idx] === q.answer) {
+          score++;
+        }
+      });
+      
+      stats.correctAnswers = score;
+      updateStats();
+      
+      document.getElementById("finalScore").textContent = `${score}/${currentSet.length}`;
+      document.getElementById("resultModal").style.display = "flex";
+    }
+
+    function reloadQuiz() {
+      currentSet = quizSets[currentDifficulty];
+      stats.totalQuestions = currentSet.length;
+      currentQuestion = 0;
+      userAnswers = [];
+      timeLeft = 30 * 60;
+      stats.timeRemaining = timeLeft;
+      document.getElementById("timer").classList.remove("warning");
+      document.getElementById("resultModal").style.display = "none";
+      loadQuestion();
+      startTimer();
+      updateStats();
+    }
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    
+    themeToggle.addEventListener('click', () => {
+      body.setAttribute('data-theme', 
+        body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+      );
+      
+      const icon = themeToggle.querySelector('i');
+      const text = themeToggle.querySelector('span');
+      
+      if (body.getAttribute('data-theme') === 'dark') {
+        icon.className = 'fas fa-sun';
+        text.textContent = 'Light Mode';
+      } else {
+        icon.className = 'fas fa-moon';
+        text.textContent = 'Dark Mode';
+      }
+    });
+
+    // Difficulty selector
+    const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+    
+    difficultyButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        difficultyButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        currentDifficulty = button.dataset.difficulty;
+        reloadQuiz();
+      });
+    });
+
+    // Close modal when clicking the close button
+    document.querySelector(".close-modal").addEventListener("click", () => {
+      document.getElementById("resultModal").style.display = "none";
+    });
+
+    // Close modal when clicking outside
+    document.getElementById("resultModal").addEventListener("click", (e) => {
+      if (e.target === document.getElementById("resultModal")) {
+        document.getElementById("resultModal").style.display = "none";
+      }
+    });
+
+    // Initialize quiz
+    window.onload = () => {
+      reloadQuiz();
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Semester 1 SGPA</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
+      color: #222;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 32px 24px;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(33, 147, 176, 0.15);
+    }
+
+    h1, h2, h3 {
+      color: #2193b0;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      border-bottom: 2px solid #6dd5ed;
+      padding-bottom: 8px;
+    }
+
+    h2, h3 {
+      font-size: 1.3rem;
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 4px;
+    }
+
+    .section {
+      background: #f7fbfc;
+      border-radius: 10px;
+      margin-bottom: 24px;
+      padding: 18px 16px 8px 16px;
+      box-shadow: 0 2px 8px rgba(33, 147, 176, 0.05);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 1.08rem;
+      color: #333;
+      transition: background 0.2s;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    li:hover {
+      background: #eaf6fb;
+    }
+
+    .score {
+      font-weight: 600;
+      color: #2193b0;
+      background: #e3f2fd;
+      border-radius: 6px;
+      padding: 2px 10px;
+      margin-left: 10px;
+      min-width: 60px;
+      text-align: right;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 12px 4px;
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
+      h2, h3 {
+        font-size: 1.1rem;
+      }
+      .section {
+        padding: 10px 6px 4px 6px;
+      }
+      li {
+        font-size: 0.98rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Semester 1 <span style="float:right;font-size:1.1rem;color:#3887be;">SGPA: <b>8.05</b></span></h1>
+
+    <div class="section">
+      <h2>Mid Sem</h2>
+      <ul>
+        <li>LBC <span class="score">15/30</span></li>
+        <li>EC & ES <span class="score">14/15</span></li>
+        <li>LA & C <span class="score">20/30</span></li>
+        <li>IKS <span class="score">15/15</span></li>
+        <li>CP <span class="score">13/15</span></li>
+        <li>CCE <span class="score">25/30</span></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>End Sem (Internal)</h2>
+      <ul>
+        <li>LBC <span class="score">26/40</span></li>
+        <li>EC & ES <span class="score">20/20</span></li>
+        <li>LA & C <span class="score">33/40</span></li>
+        <li>IKS <span class="score">20/20</span></li>
+        <li>CP <span class="score">17/20</span></li>
+        <li>CCE <span class="score">37/40</span></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Practicals</h2>
+      <ul>
+        <li>LBC-P <span class="score">19/25</span></li>
+        <li>BCS-P <span class="score">21/25</span></li>
+        <li>EC & ES-P <span class="score">25/25</span></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>End Sem</h2>
+      <ul>
+        <li>LBC <span class="score">33/60</span></li>
+        <li>EC & ES <span class="score">20/30</span></li>
+        <li>LA & C <span class="score">44/60</span></li>
+        <li>IKS <span class="score">23/30</span></li>
+        <li>CP <span class="score">23/30</span></li>
+        <li>CCE <span class="score">50/60</span></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Total (M + E + I)</h2>
+      <ul>
+        <li>LBC <span class="score">59/100</span></li>
+        <li>EC & ES <span class="score">40/50</span></li>
+        <li>LA & C <span class="score">77/100</span></li>
+        <li>IKS <span class="score">43/50</span></li>
+        <li>CP <span class="score">40/50</span></li>
+        <li>CCE <span class="score">87/100</span></li>
+      </ul>
+    </div>
+
+    <h1>Semester 2</h1>
+    <div class="section">
+      <h3>Mid Sem</h3>
+      <ul>
+        <li>PSP <span class="score">20/30</span></li>
+        <li>EP&MS <span class="score">15/15</span></li>
+        <li>S&P <span class="score">27/30</span></li>
+        <li>DT <span class="score">13/15</span></li>
+        <li>CP-2 <span class="score">12/15</span></li>
+        <li>MWT <span class="score">17/30</span></li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
